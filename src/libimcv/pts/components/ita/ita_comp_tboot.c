@@ -173,6 +173,10 @@ METHOD(pts_component_t, measure, status_t,
 	}
 
 	pcrs = pts->get_pcrs(pts);
+	if (!pcrs)
+	{
+		return FAILED;
+	}
 	pcrs->set(pcrs, extended_pcr, pcr_after);
 	evid = *evidence = pts_comp_evidence_create(this->name->clone(this->name),
 							this->depth, extended_pcr, hash_algo, pcr_transform,
@@ -198,6 +202,10 @@ METHOD(pts_component_t, verify, status_t,
 
 	this->aik_id = pts->get_aik_id(pts);
 	pcrs = pts->get_pcrs(pts);
+	if (!pcrs)
+	{
+		return FAILED;
+	}
 	measurement = evidence->get_measurement(evidence, &extended_pcr,
 								&algo, &transform, &measurement_time);
 
